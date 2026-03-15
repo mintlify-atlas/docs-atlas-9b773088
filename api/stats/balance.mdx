@@ -1,0 +1,58 @@
+---
+title: "Get balance"
+description: "Returns total income, total expenses, and net balance for a given period."
+---
+
+Returns aggregated financial totals across all transactions. Use the optional `month` and `year` query parameters to filter to a specific period.
+
+## Query parameters
+
+<ParamField query="month" type="integer">
+  Filter results to a specific month. Accepts values from `1` (January) to `12` (December). Must be used with `year` for meaningful results.
+</ParamField>
+
+<ParamField query="year" type="integer">
+  Filter results to a specific year. Must be a 4-digit year (e.g., `2024`).
+</ParamField>
+
+## Response
+
+<ResponseField name="totalIncome" type="number">
+  Sum of all income transactions in the filtered period.
+</ResponseField>
+
+<ResponseField name="totalExpenses" type="number">
+  Sum of all expense transactions in the filtered period.
+</ResponseField>
+
+<ResponseField name="balance" type="number">
+  Net balance calculated as `totalIncome` minus `totalExpenses`.
+</ResponseField>
+
+<Note>
+  Returns `null` if no transactions exist for the specified period.
+</Note>
+
+## Examples
+
+<CodeGroup>
+
+```bash All transactions
+curl --request GET \
+  --url https://api.example.com/api/stats/balance
+```
+
+```bash Filter by month and year
+curl --request GET \
+  --url "https://api.example.com/api/stats/balance?month=3&year=2024"
+```
+
+</CodeGroup>
+
+```json Response
+{
+  "totalIncome": 3500.00,
+  "totalExpenses": 1850.75,
+  "balance": 1649.25
+}
+```

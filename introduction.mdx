@@ -1,0 +1,49 @@
+---
+title: "Introduction"
+description: "Personal Finance API is a RESTful service for tracking income and expenses, managing categories, and generating financial statistics."
+---
+
+Personal Finance API is a Node.js and Express backend that gives you full control over your financial data. Use it to record income and expense transactions, organize them by category, and query aggregated statistics — all through a clean REST interface.
+
+## API overview
+
+The API exposes three resource groups under `/api`:
+
+| Resource | Base path | Description |
+|---|---|---|
+| Transactions | `/api/transactions` | Create, read, update, and delete income and expense records |
+| Statistics | `/api/stats` | Aggregated reports: balance, category breakdown, monthly comparison |
+| Categories | `/api/categories` | Manage the categories used to classify transactions |
+
+## Key features
+
+<CardGroup cols={2}>
+  <Card title="Transaction management" icon="money-bill-transfer">
+    Full CRUD for income and expense transactions. Each transaction is validated with Zod and assigned a UUID automatically.
+  </Card>
+  <Card title="Flexible filtering" icon="filter">
+    Filter transactions by type, category, month, and year to retrieve exactly the data you need.
+  </Card>
+  <Card title="Financial balance" icon="scale-balanced">
+    Query total income, total expenses, and net balance — optionally scoped to a specific time period.
+  </Card>
+  <Card title="Category analytics" icon="chart-pie">
+    Break down spending by category with percentage distribution and identify your top spending areas.
+  </Card>
+  <Card title="Monthly comparison" icon="calendar">
+    Compare the current month's income and expenses against the previous month with percentage change.
+  </Card>
+  <Card title="Category management" icon="tags">
+    Full CRUD for categories. Eight built-in categories are included, and you can create your own.
+  </Card>
+</CardGroup>
+
+## Built-in categories
+
+The following categories are available out of the box:
+
+`food` `transport` `entertainment` `utilities` `health` `shopping` `salary` `other`
+
+## Get started
+
+Head to the [Quickstart](/quickstart) to get the API running locally and make your first request in minutes.

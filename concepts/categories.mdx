@@ -1,0 +1,49 @@
+---
+title: "Categories"
+description: "How transactions are grouped by spending or income type, with the full list of built-in categories."
+---
+
+Every transaction must be assigned a category. Categories let you group and analyze your finances by type — for example, tracking how much you spend on food or utilities each month.
+
+## Built-in categories
+
+The API ships with 8 default categories:
+
+| Category | Description |
+|---|---|
+| `food` | Groceries, restaurants, cafes, and any food-related spending. |
+| `transport` | Fuel, public transit, ride-sharing, parking, and vehicle costs. |
+| `entertainment` | Streaming services, concerts, movies, games, and leisure activities. |
+| `utilities` | Electricity, water, gas, internet, and phone bills. |
+| `health` | Medical appointments, pharmacy, gym memberships, and wellness. |
+| `shopping` | Clothing, electronics, household goods, and general retail. |
+| `salary` | Employment income, wages, and regular payroll deposits. |
+| `other` | Any transaction that does not fit the categories above. |
+
+<Note>
+  Category values are case-insensitive. `"Food"`, `"FOOD"`, and `"food"` are all accepted and stored as `"food"`.
+</Note>
+
+## Custom categories
+
+If the built-in categories do not cover your needs, you can create custom categories via the `/api/categories` endpoint. Custom categories become valid values for the `category` field on transactions immediately after creation.
+
+<Info>
+  When a category is renamed via the categories API, all existing transactions with that category are automatically updated to use the new name.
+</Info>
+
+## Example usage
+
+The `category` field is set when creating or updating a transaction:
+
+```json
+{
+  "type": "expense",
+  "amount": 120.00,
+  "category": "shopping",
+  "description": "Winter jacket",
+  "date": "2024-11-20T11:00:00.000Z"
+}
+```
+
+You can also use `category` as a query parameter to filter transactions. See [Filtering transactions](/concepts/filtering) for details.

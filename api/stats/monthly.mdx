@@ -1,0 +1,88 @@
+---
+title: "Monthly summary"
+description: "Returns the current month's income and expense summary compared to the previous month."
+---
+
+Returns income and expense totals for the specified month alongside the previous month's figures, plus the percentage change between them. When `month` and `year` are both provided, previous-month data is automatically calculated.
+
+## Query parameters
+
+<ParamField query="month" type="integer">
+  The month to summarize. Accepts values from `1` (January) to `12` (December). Provide together with `year` to enable previous-month comparison.
+</ParamField>
+
+<ParamField query="year" type="integer">
+  The year to summarize. Must be a 4-digit year (e.g., `2024`). Provide together with `month` to enable previous-month comparison.
+</ParamField>
+
+<Info>
+  Previous-month comparison is only populated when both `month` and `year` are provided. If either parameter is omitted, `previousMonth` values and `percentageChange` values will be `null`.
+</Info>
+
+## Response
+
+<ResponseField name="currentMonth" type="object">
+  Income and expense totals for the requested period.
+  <Expandable title="properties">
+    <ResponseField name="income" type="number">
+      Total income for the current month.
+    </ResponseField>
+    <ResponseField name="expenses" type="number">
+      Total expenses for the current month.
+    </ResponseField>
+    <ResponseField name="balance" type="number">
+      Net balance (income minus expenses) for the current month.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="previousMonth" type="object">
+  Income and expense totals for the month preceding the requested period. Fields are `null` when `month` and `year` are not both provided.
+  <Expandable title="properties">
+    <ResponseField name="income" type="number">
+      Total income for the previous month.
+    </ResponseField>
+    <ResponseField name="expenses" type="number">
+      Total expenses for the previous month.
+    </ResponseField>
+    <ResponseField name="balance" type="number">
+      Net balance for the previous month.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="percentageChange" type="object">
+  Percentage change from the previous month to the current month. Fields are `null` when comparison data is unavailable.
+  <Expandable title="properties">
+    <ResponseField name="income" type="number">
+      Percentage change in income. Negative values indicate a decrease.
+    </ResponseField>
+    <ResponseField name="expenses" type="number">
+      Percentage change in expenses. Negative values indicate a decrease.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash With month and year (full comparison)
+curl --request GET \
+  --url "https://api.example.com/api/stats/monthly?month=3&year=2024"
+```
+
+```bash All transactions (no comparison)
+curl --request GET \
+  --url https://api.example.com/api/stats/monthly
+```
+
+</CodeGroup>
+
+```json Response
+{
+  "currentMonth": { "income": 3500, "expenses": 1850, "balance": 1650 },
+  "previousMonth": { "income": 3200, "expenses": 2100, "balance": 1100 },
+  "percentageChange": { "income": 9.4, "expenses": -11.9 }
+}
+```

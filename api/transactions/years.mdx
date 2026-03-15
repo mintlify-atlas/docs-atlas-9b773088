@@ -1,0 +1,33 @@
+---
+title: "List transaction years"
+description: "Returns all unique years that have at least one transaction, sorted in descending order."
+---
+
+Returns a sorted array of distinct years derived from transaction dates. Useful for populating year filter dropdowns in a UI without having to fetch all transactions first.
+
+<Tip>
+  Use this endpoint to build year-picker components before calling [List transactions](/api/transactions/list) with a `year` filter.
+</Tip>
+
+## Response
+
+<ResponseField name="" type="integer[]">
+  Array of 4-digit year integers, sorted descending (most recent first).
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.example.com/api/transactions/years
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+[2025, 2024, 2023]
+```
+
+</ResponseExample>

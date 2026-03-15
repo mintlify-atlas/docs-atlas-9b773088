@@ -1,97 +1,64 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Personal Finance API"
+description: "A REST API built with Node.js and Express for managing income and expenses, organizing transactions, and generating financial statistics."
 ---
 
-## Setting up
-
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get the API running locally in minutes
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="API Reference" icon="code" href="/api/transactions/list">
+    Explore all available endpoints
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Transactions" icon="money-bill-transfer" href="/concepts/transactions">
+    Understand how transactions work
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Statistics" icon="chart-bar" href="/api/stats/balance">
+    Generate financial reports and insights
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## What is Personal Finance API?
 
-Everything you need to create world-class documentation.
+Personal Finance API is a RESTful backend service that lets you track income and expenses with ease. Built on **Node.js** and **Express**, it provides a clean, layered architecture with full CRUD for transactions, category management, and powerful financial statistics.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Key features
 
-## Need inspiration?
+<CardGroup cols={2}>
+  <Card title="Transaction management" icon="list">
+    Create, read, update, and delete income and expense transactions with automatic UUID generation and Zod validation.
+  </Card>
+  <Card title="Flexible filtering" icon="filter">
+    Filter transactions by type, category, month, and year to slice your data exactly how you need it.
+  </Card>
+  <Card title="Financial balance" icon="scale-balanced">
+    Calculate total income, total expenses, and net balance for any time period.
+  </Card>
+  <Card title="Category analytics" icon="chart-pie">
+    Break down expenses by category with percentage distribution and identify your top 5 spending categories.
+  </Card>
+  <Card title="Monthly comparison" icon="calendar">
+    Compare the current month's spending and income against the previous month with percentage change.
+  </Card>
+  <Card title="Category management" icon="tags">
+    Full CRUD for categories — use the built-in categories or create your own.
+  </Card>
+</CardGroup>
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+## API overview
+
+The API exposes three resource groups under `/api`:
+
+| Resource | Base path | Description |
+|---|---|---|
+| Transactions | `/api/transactions` | Income and expense records |
+| Statistics | `/api/stats` | Aggregated financial reports |
+| Categories | `/api/categories` | Transaction category management |
+
+## Built with
+
+- **Node.js** — JavaScript runtime
+- **Express 5** — Web framework
+- **Zod** — Schema validation
+- **dotenv** — Environment configuration
+- **CORS** — Cross-origin resource sharing

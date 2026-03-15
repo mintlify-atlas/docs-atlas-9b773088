@@ -1,0 +1,51 @@
+---
+title: "Delete a transaction"
+description: "Permanently deletes a transaction by its ID."
+---
+
+Deletes the transaction with the given ID. This action is irreversible.
+
+<Warning>
+  Deleted transactions cannot be recovered.
+</Warning>
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The UUID of the transaction to delete.
+</ParamField>
+
+## Response
+
+<ResponseField name="error" type="string">
+  Confirmation message on success.
+</ResponseField>
+
+<Note>
+  The success response uses the field name `error` with the value `"Transaction deleted done"`. This is a quirk of the current API implementation — the field name does not indicate an actual error.
+</Note>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.example.com/api/transactions/47047f7b-824b-4eb1-b41f-caaba7950d8e
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "error": "Transaction deleted done"
+}
+```
+
+```json 404
+{
+  "error": "Transaction not found"
+}
+```
+
+</ResponseExample>

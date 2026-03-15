@@ -1,0 +1,62 @@
+---
+title: "Update category"
+description: "Updates a category's name by ID."
+---
+
+Updates the name of the specified category. The new name is stored in lowercase. If the category name changes, all existing transactions that reference the old name are automatically updated to use the new name.
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the category to update.
+</ParamField>
+
+## Request body
+
+<ParamField body="name" type="string" required>
+  The new name for the category. Stored in lowercase.
+</ParamField>
+
+## Response
+
+Returns the updated category object.
+
+<ResponseField name="id" type="string">
+  Unique identifier of the category.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The updated category name.
+</ResponseField>
+
+<Info>
+  Renaming a category automatically updates all transactions that reference the old category name.
+</Info>
+
+## Example
+
+```bash cURL
+curl --request PUT \
+  --url https://api.example.com/api/categories/1 \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "groceries"
+}'
+```
+
+<CodeGroup>
+
+```json 200 OK
+{
+  "id": "1",
+  "name": "groceries"
+}
+```
+
+```json 404 Not found
+{
+  "error": "Category not found"
+}
+```
+
+</CodeGroup>

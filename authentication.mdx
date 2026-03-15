@@ -1,0 +1,77 @@
+---
+title: "Authentication"
+description: "The Personal Finance API has no built-in authentication. Access is controlled through CORS configuration."
+---
+
+<Warning>
+  This API has no authentication layer. Any client that can reach the server can read and modify all data. Do not expose this API to the public internet without adding authentication first.
+</Warning>
+
+## No authentication required
+
+The Personal Finance API does not implement authentication or API keys. All endpoints are open to any caller that passes the CORS policy. This makes it straightforward to run locally or in a trusted private network, but it is not suitable for production use without additional security controls.
+
+## CORS configuration
+
+Access is restricted at the network level using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). The server reads the allowed origin(s) from the `CORS_ORIGIN` environment variable and rejects requests from any other origin.
+
+The following HTTP methods are permitted: `GET`, `POST`, `PATCH`, `PUT`, `DELETE`.
+
+Credentials (cookies, authorization headers) are supported — `credentials: true` is set on the CORS configuration.
+
+### Single origin
+
+Set `CORS_ORIGIN` to a single URL:
+
+```bash .env
+PORT=3000
+CORS_ORIGIN=http://localhost:3000
+```
+
+### Multiple origins
+
+Separate origins with commas — no spaces:
+
+```bash .env
+PORT=3000
+CORS_ORIGIN=http://localhost:3000,https://app.example.com,https://admin.example.com
+```
+
+The server splits the value on `,` and passes the resulting array to the CORS middleware:
+
+```javascript
+origin: process.env.CORS_ORIGIN.includes(",")
+  ? process.env.CORS_ORIGIN.split(",")
+  : process.env.CORS_ORIGIN
+```
+
+<Note>
+  `CORS_ORIGIN` must be set before starting the server. If the variable is missing, calling `.includes()` on `undefined` will throw a `TypeError` at startup.
+</Note>
+
+## Example .env file
+
+```bash .env
+# Server port (defaults to 3000 if not set)
+PORT=3000
+
+# Allowed CORS origin(s)
+# Single origin:
+CORS_ORIGIN=http://localhost:3000
+
+# Multiple origins (comma-separated, no spaces):
+# CORS_ORIGIN=http://localhost:3000,https://app.example.com
+```
+
+## Production considerations
+
+Before deploying this API beyond a local or trusted environment, consider adding:
+
+- **Authentication** — JWT, API keys, or session-based auth to verify the caller's identity.
+- **Authorization** — Role or ownership checks so users can only access their own data.
+- **Rate limiting** — Prevent abuse by capping requests per IP or API key.
+- **HTTPS** — Always serve over TLS in production; CORS alone does not encrypt traffic.
+
+<Tip>
+  Express middleware libraries such as [express-jwt](https://github.com/auth0/express-jwt) or [Passport.js](https://www.passportjs.org/) integrate cleanly with the existing Express 5 setup.
+</Tip>

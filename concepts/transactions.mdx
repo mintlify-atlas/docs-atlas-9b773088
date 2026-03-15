@@ -1,0 +1,119 @@
+---
+title: "Transactions"
+description: "The core data model representing a single financial event — either money coming in or going out."
+---
+
+A transaction is the fundamental unit of data in the Personal Finance API. Every transaction represents a single financial event: money you received (income) or money you spent (expense).
+
+## Transaction object
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the transaction. Auto-generated as a UUID (v4) when the transaction is created. You cannot set this field manually.
+</ResponseField>
+
+<ResponseField name="type" type="string" required>
+  The direction of the transaction. Must be either `"income"` or `"expense"`. Values are normalized to lowercase automatically — you can submit `"Income"` or `"EXPENSE"` and it will be stored correctly.
+</ResponseField>
+
+<ResponseField name="amount" type="number" required>
+  The monetary value of the transaction. Must be a number greater than or equal to `1`. Decimal values are accepted (e.g., `45.50`).
+</ResponseField>
+
+<ResponseField name="category" type="string" required>
+  The category this transaction belongs to. Must be one of the valid category names. Values are normalized to lowercase automatically. See [Categories](/concepts/categories) for the full list.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  A free-text label describing the transaction (e.g., `"Lunch at restaurant"`, `"Monthly rent"`). There is no enforced length limit.
+</ResponseField>
+
+<ResponseField name="date" type="string" required>
+  The date and time of the transaction as an ISO 8601 string (e.g., `"2024-11-15T14:30:00.000Z"`). When creating a transaction without supplying a date, the API defaults to the current date.
+</ResponseField>
+
+## Transaction types
+
+Every transaction must be classified as one of two types:
+
+<Columns cols={2}>
+  <Card title="Income" icon="arrow-down-left">
+    Money received. Use this for salary deposits, freelance payments, refunds, investment returns, or any other inflow.
+  </Card>
+  <Card title="Expense" icon="arrow-up-right">
+    Money spent. Use this for purchases, bills, subscriptions, or any other outflow.
+  </Card>
+</Columns>
+
+<Note>
+  The `type` field is case-insensitive. `"Income"`, `"INCOME"`, and `"income"` are all accepted and stored as `"income"`.
+</Note>
+
+## Example objects
+
+<CodeGroup>
+
+```json Income transaction
+{
+  "id": "47047f7b-824b-4eb1-b41f-caaba7950d8e",
+  "type": "income",
+  "amount": 3200.00,
+  "category": "salary",
+  "description": "Monthly salary deposit",
+  "date": "2024-11-01T09:00:00.000Z"
+}
+```
+
+```json Expense transaction
+{
+  "id": "91bc3d22-f17a-4c5e-b883-d9e02a1f3a44",
+  "type": "expense",
+  "amount": 45.50,
+  "category": "food",
+  "description": "Lunch at restaurant",
+  "date": "2024-11-15T14:30:00.000Z"
+}
+```
+
+</CodeGroup>
+
+## Field details
+
+### ID generation
+
+The `id` field is auto-generated using `crypto.randomUUID()` when a transaction is created. IDs are version 4 UUIDs and are guaranteed to be unique. You do not supply an `id` when creating a transaction — if you include one in the request body it will be ignored.
+
+### Date format
+
+Dates must be valid ISO 8601 strings. The full datetime format with a UTC offset is recommended:
+
+```
+2024-11-15T14:30:00.000Z
+```
+
+If you omit the `date` field when creating a transaction, the API uses the current date in `YYYY-MM-DD` format.
+
+<Tip>
+  Store and transmit dates in UTC to avoid timezone inconsistencies when filtering by month or year.
+</Tip>
+
+### Amount minimum
+
+The `amount` must be `>= 1`. Amounts below `1` are rejected with a `400` validation error. There is no enforced maximum.
+
+### Case normalization
+
+Both `type` and `category` are normalized to lowercase by the API before validation and storage. This means:
+
+- `"Food"` → `"food"`
+- `"EXPENSE"` → `"expense"`
+- `"Transport"` → `"transport"`
+
+You do not need to lowercase these values before sending them.
+
+## Partial updates
+
+When updating a transaction via `PATCH /api/transactions/:id`, all fields are optional. You only need to include the fields you want to change. Omitted fields retain their existing values.
+
+```json
+{ "amount": 52.00, "description": "Dinner at restaurant" }
+```

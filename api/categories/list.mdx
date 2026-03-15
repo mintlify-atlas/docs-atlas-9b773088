@@ -1,0 +1,38 @@
+---
+title: "List categories"
+description: "Returns all available transaction categories."
+---
+
+Returns the full list of categories. This includes the 8 built-in default categories as well as any custom categories you have created.
+
+## Response
+
+Returns an array of category objects.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the category.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The category name, stored in lowercase.
+</ResponseField>
+
+## Example
+
+```bash cURL
+curl --request GET \
+  --url https://api.example.com/api/categories
+```
+
+```json Response
+[
+  { "id": "1", "name": "food" },
+  { "id": "2", "name": "transport" },
+  { "id": "3", "name": "entertainment" },
+  { "id": "4", "name": "utilities" },
+  { "id": "5", "name": "health" },
+  { "id": "6", "name": "shopping" },
+  { "id": "7", "name": "salary" },
+  { "id": "8", "name": "other" }
+]
+```

@@ -1,0 +1,111 @@
+---
+title: "Update a transaction"
+description: "Partially updates a transaction by its ID. Only the fields you provide are changed."
+---
+
+Applies a partial update to the specified transaction. You can include any subset of the transaction fields — only the fields present in the request body are updated. Returns the full updated transaction on success.
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The UUID of the transaction to update.
+</ParamField>
+
+## Request body
+
+All fields are optional. Provide only the fields you want to change.
+
+<ParamField body="type" type="string">
+  Transaction type. Accepted values: `income`, `expense`.
+</ParamField>
+
+<ParamField body="amount" type="number">
+  Transaction amount. Must be `1` or greater.
+</ParamField>
+
+<ParamField body="category" type="string">
+  Transaction category. Accepted values: `food`, `transport`, `entertainment`, `utilities`, `health`, `shopping`, `salary`, `other`.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Human-readable description of the transaction.
+</ParamField>
+
+<ParamField body="date" type="string">
+  Transaction date as an ISO 8601 string (e.g. `2024-11-15T14:30:00.000Z`).
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Unique identifier (UUID) of the transaction.
+</ResponseField>
+
+<ResponseField name="type" type="string" required>
+  Transaction type: `income` or `expense`.
+</ResponseField>
+
+<ResponseField name="amount" type="number" required>
+  Transaction amount.
+</ResponseField>
+
+<ResponseField name="category" type="string" required>
+  Transaction category.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Transaction description.
+</ResponseField>
+
+<ResponseField name="date" type="string" required>
+  Transaction date as an ISO 8601 string.
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PATCH \
+  --url https://api.example.com/api/transactions/47047f7b-824b-4eb1-b41f-caaba7950d8e \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "amount": 60.00,
+    "description": "Dinner at restaurant"
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "id": "47047f7b-824b-4eb1-b41f-caaba7950d8e",
+  "type": "income",
+  "amount": 60.00,
+  "category": "food",
+  "description": "Dinner at restaurant",
+  "date": "2024-11-15T14:30:00.000Z"
+}
+```
+
+```json 404
+{
+  "error": "Transaction not found"
+}
+```
+
+```json 400
+{
+  "error": [
+    {
+      "code": "too_small",
+      "minimum": 1,
+      "type": "number",
+      "path": ["amount"],
+      "message": "Number must be greater than or equal to 1"
+    }
+  ]
+}
+```
+
+</ResponseExample>

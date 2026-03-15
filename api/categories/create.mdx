@@ -1,0 +1,57 @@
+---
+title: "Create category"
+description: "Creates a new custom category."
+---
+
+Creates a new category with the given name. Category names are stored in lowercase. Returns `409 Conflict` if a category with the same name already exists.
+
+## Request body
+
+<ParamField body="name" type="string" required>
+  The name for the new category. Must be unique (case-insensitive). Stored in lowercase.
+</ParamField>
+
+## Response
+
+Returns the created category object wrapped in a `data` field.
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ResponseField name="id" type="string">
+      Auto-generated unique identifier for the new category.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      The category name, stored in lowercase.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Example
+
+```bash cURL
+curl --request POST \
+  --url https://api.example.com/api/categories \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "name": "travel"
+}'
+```
+
+<CodeGroup>
+
+```json 201 Created
+{
+  "data": {
+    "id": "a3f1c2d4-...",
+    "name": "travel"
+  }
+}
+```
+
+```json 409 Conflict
+{
+  "error": "The category already exists"
+}
+```
+
+</CodeGroup>

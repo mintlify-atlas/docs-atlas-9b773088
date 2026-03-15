@@ -1,0 +1,68 @@
+---
+title: "Get a transaction"
+description: "Returns a single transaction by its ID."
+---
+
+Returns the transaction matching the given UUID. Returns `404` if no transaction is found with that ID.
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The UUID of the transaction to retrieve.
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Unique identifier (UUID) of the transaction.
+</ResponseField>
+
+<ResponseField name="type" type="string" required>
+  Transaction type: `income` or `expense`.
+</ResponseField>
+
+<ResponseField name="amount" type="number" required>
+  Transaction amount.
+</ResponseField>
+
+<ResponseField name="category" type="string" required>
+  Transaction category.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Human-readable description of the transaction.
+</ResponseField>
+
+<ResponseField name="date" type="string" required>
+  Transaction date as an ISO 8601 string.
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.example.com/api/transactions/47047f7b-824b-4eb1-b41f-caaba7950d8e
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "id": "47047f7b-824b-4eb1-b41f-caaba7950d8e",
+  "type": "income",
+  "amount": 45.50,
+  "category": "food",
+  "description": "Lunch at restaurant",
+  "date": "2024-11-15T14:30:00.000Z"
+}
+```
+
+```json 404
+{
+  "error": "Transaction not found"
+}
+```
+
+</ResponseExample>

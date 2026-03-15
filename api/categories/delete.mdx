@@ -1,0 +1,51 @@
+---
+title: "Delete category"
+description: "Deletes a category by ID."
+---
+
+Deletes the specified category. A category cannot be deleted if it is currently referenced by any existing transactions — the API returns `409 Conflict` in that case.
+
+<Warning>
+  Deleting a built-in default category (such as `food`, `transport`, or `salary`) may break existing transactions and reporting. Remove all transaction references to a category before deleting it.
+</Warning>
+
+## Path parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the category to delete.
+</ParamField>
+
+## Response
+
+<ResponseField name="message" type="string">
+  Confirmation message on successful deletion.
+</ResponseField>
+
+## Example
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.example.com/api/categories/1
+```
+
+<CodeGroup>
+
+```json 200 OK
+{
+  "message": "Category deleted successfully"
+}
+```
+
+```json 404 Not found
+{
+  "error": "Category not found"
+}
+```
+
+```json 409 Conflict
+{
+  "error": "Cannot delete category. It is currently in use by existing transactions"
+}
+```
+
+</CodeGroup>

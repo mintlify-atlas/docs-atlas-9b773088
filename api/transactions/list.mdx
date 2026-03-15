@@ -1,0 +1,114 @@
+---
+title: "List transactions"
+description: "Returns all transactions, with optional filters for type, category, month, and year."
+---
+
+Returns an array of transaction objects. All query parameters are optional — omit them to retrieve the full list.
+
+## Query parameters
+
+<ParamField query="type" type="string">
+  Filter by transaction type. Accepted values: `income`, `expense`. Case-insensitive.
+</ParamField>
+
+<ParamField query="category" type="string">
+  Filter by category name. Accepted values: `food`, `transport`, `entertainment`, `utilities`, `health`, `shopping`, `salary`, `other`. Case-insensitive.
+</ParamField>
+
+<ParamField query="month" type="integer">
+  Filter by month. Integer between `1` (January) and `12` (December).
+</ParamField>
+
+<ParamField query="year" type="integer">
+  Filter by year. Must be a 4-digit year within the range of years that have recorded transactions.
+</ParamField>
+
+## Response
+
+<ResponseField name="" type="array">
+  Array of transaction objects.
+
+  <Expandable title="Transaction object">
+    <ResponseField name="id" type="string" required>
+      Unique identifier (UUID) for the transaction.
+    </ResponseField>
+    <ResponseField name="type" type="string" required>
+      Transaction type: `income` or `expense`.
+    </ResponseField>
+    <ResponseField name="amount" type="number" required>
+      Transaction amount. Minimum value: `1`.
+    </ResponseField>
+    <ResponseField name="category" type="string" required>
+      Category name. One of: `food`, `transport`, `entertainment`, `utilities`, `health`, `shopping`, `salary`, `other`.
+    </ResponseField>
+    <ResponseField name="description" type="string" required>
+      Human-readable description of the transaction.
+    </ResponseField>
+    <ResponseField name="date" type="string" required>
+      ISO 8601 date string (e.g. `2024-11-15T14:30:00.000Z`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash Without filters
+curl --request GET \
+  --url https://api.example.com/api/transactions
+```
+
+```bash With filters
+curl --request GET \
+  --url "https://api.example.com/api/transactions?type=expense&category=food&month=11&year=2024"
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+[
+  {
+    "id": "47047f7b-824b-4eb1-b41f-caaba7950d8e",
+    "type": "income",
+    "amount": 45.50,
+    "category": "food",
+    "description": "Lunch at restaurant",
+    "date": "2024-11-15T14:30:00.000Z"
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "type": "expense",
+    "amount": 120.00,
+    "category": "utilities",
+    "description": "Electricity bill",
+    "date": "2024-11-01T09:00:00.000Z"
+  }
+]
+```
+
+```json 404 (invalid type)
+{
+  "error": "Type not found"
+}
+```
+
+```json 404 (invalid category)
+{
+  "error": "Category not found"
+}
+```
+
+```json 400 (invalid month)
+{
+  "error": "The month must be a number"
+}
+```
+
+```json 400 (invalid year)
+{
+  "error": "The year must be a number"
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,104 @@
+---
+title: "Create a transaction"
+description: "Creates a new transaction and returns it with an auto-generated ID."
+---
+
+Creates a new transaction. All body fields are required. Returns the created transaction with status `201`.
+
+<Info>
+  The `type` and `category` fields are normalized to lowercase before validation, so `Income`, `EXPENSE`, `Food`, etc. are all accepted.
+</Info>
+
+## Request body
+
+<ParamField body="type" type="string" required>
+  Transaction type. Accepted values: `income`, `expense`.
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  Transaction amount. Must be `1` or greater.
+</ParamField>
+
+<ParamField body="category" type="string" required>
+  Transaction category. Accepted values: `food`, `transport`, `entertainment`, `utilities`, `health`, `shopping`, `salary`, `other`.
+</ParamField>
+
+<ParamField body="description" type="string" required>
+  Human-readable description of the transaction.
+</ParamField>
+
+<ParamField body="date" type="string" required>
+  Transaction date as an ISO 8601 string (e.g. `2024-11-15T14:30:00.000Z`).
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="string" required>
+  Auto-generated UUID for the new transaction.
+</ResponseField>
+
+<ResponseField name="type" type="string" required>
+  Transaction type: `income` or `expense`.
+</ResponseField>
+
+<ResponseField name="amount" type="number" required>
+  Transaction amount.
+</ResponseField>
+
+<ResponseField name="category" type="string" required>
+  Transaction category.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Transaction description.
+</ResponseField>
+
+<ResponseField name="date" type="string" required>
+  Transaction date as an ISO 8601 string.
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.example.com/api/transactions \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "type": "expense",
+    "amount": 45.50,
+    "category": "food",
+    "description": "Lunch at restaurant",
+    "date": "2024-11-15T14:30:00.000Z"
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 201
+{
+  "id": "47047f7b-824b-4eb1-b41f-caaba7950d8e",
+  "type": "expense",
+  "amount": 45.50,
+  "category": "food",
+  "description": "Lunch at restaurant",
+  "date": "2024-11-15T14:30:00.000Z"
+}
+```
+
+```json 400
+{
+  "error": [
+    {
+      "code": "invalid_literal",
+      "expected": ["income", "expense"],
+      "received": "transfer",
+      "path": ["type"],
+      "message": "Invalid literal value, expected \"income\" | \"expense\""
+    }
+  ]
+}
+```
+
+</ResponseExample>

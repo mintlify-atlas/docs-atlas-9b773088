@@ -1,0 +1,136 @@
+---
+title: "Filtering transactions"
+description: "Use query parameters to narrow down the transactions returned by GET /api/transactions."
+---
+
+The `GET /api/transactions` endpoint supports four query parameters that let you filter results by type, category, or time period. Filters can be used individually or combined.
+
+Results are always sorted by date, newest first.
+
+## Query parameters
+
+<ParamField query="type" type="string">
+  Filter transactions by direction. Must be `"income"` or `"expense"`. Case-insensitive.
+</ParamField>
+
+<ParamField query="category" type="string">
+  Filter transactions by category name (e.g., `"food"`, `"transport"`). Must match one of the valid category names. Case-insensitive.
+</ParamField>
+
+<ParamField query="month" type="number">
+  Filter transactions by month. Must be an integer between `1` (January) and `12` (December).
+</ParamField>
+
+<ParamField query="year" type="number">
+  Filter transactions by year. Must be a 4-digit integer that falls within the range of years present in your transaction data.
+</ParamField>
+
+## Filter reference
+
+| Parameter | Type | Valid values | Example |
+|---|---|---|---|
+| `type` | string | `income`, `expense` | `?type=expense` |
+| `category` | string | Any valid category name | `?category=food` |
+| `month` | number | `1`–`12` | `?month=11` |
+| `year` | number | 4-digit year within data range | `?year=2024` |
+
+## Examples
+
+### Filter by type
+
+Return only expense transactions:
+
+```bash
+curl https://api.example.com/api/transactions?type=expense
+```
+
+Return only income transactions:
+
+```bash
+curl https://api.example.com/api/transactions?type=income
+```
+
+### Filter by category
+
+Return all food transactions:
+
+```bash
+curl https://api.example.com/api/transactions?category=food
+```
+
+### Filter by month
+
+Return all transactions from November (month 11):
+
+```bash
+curl https://api.example.com/api/transactions?month=11
+```
+
+### Filter by year
+
+Return all transactions from 2024:
+
+```bash
+curl https://api.example.com/api/transactions?year=2024
+```
+
+### Combining filters
+
+Filters can be combined freely. All active filters are applied together (AND logic):
+
+```bash
+# All food expenses in November 2024
+curl "https://api.example.com/api/transactions?type=expense&category=food&month=11&year=2024"
+```
+
+```bash
+# All income transactions in 2024
+curl "https://api.example.com/api/transactions?type=income&year=2024"
+```
+
+```bash
+# All transport transactions in December
+curl "https://api.example.com/api/transactions?category=transport&month=12"
+```
+
+## Example filtered response
+
+A request for `?type=expense&category=food` might return:
+
+```json
+[
+  {
+    "id": "91bc3d22-f17a-4c5e-b883-d9e02a1f3a44",
+    "type": "expense",
+    "amount": 45.50,
+    "category": "food",
+    "description": "Lunch at restaurant",
+    "date": "2024-11-15T14:30:00.000Z"
+  },
+  {
+    "id": "3a7f1c90-d284-4b12-9e55-fc018d22a871",
+    "type": "expense",
+    "amount": 92.30,
+    "category": "food",
+    "description": "Weekly groceries",
+    "date": "2024-11-10T08:45:00.000Z"
+  }
+]
+```
+
+## Validation errors
+
+Invalid filter values return a `400` or `404` error before any data is queried:
+
+<Warning>
+  Passing an unrecognized `type` or `category` value returns `404 { "error": "Type not found" }` or `404 { "error": "Category not found" }`. Check your spelling and ensure the value matches a known type or category.
+</Warning>
+
+| Invalid input | Status | Error |
+|---|---|---|
+| `?type=transfer` | `404` | `Type not found` |
+| `?category=xyz` | `404` | `Category not found` |
+| `?month=abc` | `400` | `The month must be a number` |
+| `?month=13` | `404` | `Invalid month. Range: 1–12` |
+| `?year=abc` | `400` | `The year must be a number` |
+| `?year=1900` | `400` | `Invalid year. Available range: {min}–{max}` |

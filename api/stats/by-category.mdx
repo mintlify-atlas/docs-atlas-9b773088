@@ -1,0 +1,55 @@
+---
+title: "Expenses by category"
+description: "Returns expense totals broken down by category with percentage share of total spending."
+---
+
+Returns a breakdown of expense transactions grouped by category. Each entry includes the category name, total amount spent, and its percentage share of all expenses in the period.
+
+## Query parameters
+
+<ParamField query="month" type="integer">
+  Filter results to a specific month. Accepts values from `1` (January) to `12` (December).
+</ParamField>
+
+<ParamField query="year" type="integer">
+  Filter results to a specific year. Must be a 4-digit year (e.g., `2024`).
+</ParamField>
+
+## Response
+
+Returns an array of category summary objects. Returns an empty array if no expense transactions exist for the specified period.
+
+<ResponseField name="category" type="string">
+  The category name.
+</ResponseField>
+
+<ResponseField name="total" type="number">
+  Total amount spent in this category during the filtered period.
+</ResponseField>
+
+<ResponseField name="percentage" type="number">
+  This category's share of total expenses, expressed as a percentage.
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash All transactions
+curl --request GET \
+  --url https://api.example.com/api/stats/by-category
+```
+
+```bash Filter by month and year
+curl --request GET \
+  --url "https://api.example.com/api/stats/by-category?month=3&year=2024"
+```
+
+</CodeGroup>
+
+```json Response
+[
+  { "category": "food", "total": 450.00, "percentage": 24.3 },
+  { "category": "transport", "total": 200.00, "percentage": 10.8 }
+]
+```

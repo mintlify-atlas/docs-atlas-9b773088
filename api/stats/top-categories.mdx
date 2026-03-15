@@ -1,0 +1,58 @@
+---
+title: "Top categories"
+description: "Returns the top 5 categories ranked by total spending."
+---
+
+Returns up to 5 categories with the highest total expense amounts for the specified period, sorted in descending order by total spending.
+
+## Query parameters
+
+<ParamField query="month" type="integer">
+  Filter results to a specific month. Accepts values from `1` (January) to `12` (December).
+</ParamField>
+
+<ParamField query="year" type="integer">
+  Filter results to a specific year. Must be a 4-digit year (e.g., `2024`).
+</ParamField>
+
+## Response
+
+Returns an array of up to 5 objects sorted by `total` in descending order. Returns an empty array if no expense transactions exist for the specified period.
+
+<ResponseField name="category" type="string">
+  The category name.
+</ResponseField>
+
+<ResponseField name="total" type="number">
+  Total amount spent in this category during the filtered period.
+</ResponseField>
+
+<ResponseField name="percentage" type="number">
+  This category's share of total expenses, expressed as a percentage.
+</ResponseField>
+
+## Examples
+
+<CodeGroup>
+
+```bash All transactions
+curl --request GET \
+  --url https://api.example.com/api/stats/top-categories
+```
+
+```bash Filter by month and year
+curl --request GET \
+  --url "https://api.example.com/api/stats/top-categories?month=3&year=2024"
+```
+
+</CodeGroup>
+
+```json Response
+[
+  { "category": "food", "total": 850.00, "percentage": 32.1 },
+  { "category": "transport", "total": 420.00, "percentage": 15.9 },
+  { "category": "shopping", "total": 380.00, "percentage": 14.4 },
+  { "category": "utilities", "total": 290.00, "percentage": 11.0 },
+  { "category": "entertainment", "total": 210.00, "percentage": 7.9 }
+]
+```
