@@ -1,0 +1,90 @@
+{
+  "projectType": "api-service",
+  "projectName": "Personal Finance API",
+  "projectDescription": "A REST API built with Node.js and Express for managing income and expenses, organizing transactions, and generating financial statistics including balance, monthly summaries, and top spending categories.",
+  "theme": "sequoia",
+  "primaryColor": "#2D7DD2",
+  "lightColor": "#E8F4FD",
+  "darkColor": "#1A4A7A",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "quickstart", "authentication"]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": ["concepts/transactions", "concepts/categories", "concepts/filtering"]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Transactions",
+            "pages": [
+              "api/transactions/list",
+              "api/transactions/create",
+              "api/transactions/get",
+              "api/transactions/update",
+              "api/transactions/delete",
+              "api/transactions/years"
+            ]
+          },
+          {
+            "group": "Statistics",
+            "pages": [
+              "api/stats/balance",
+              "api/stats/by-category",
+              "api/stats/monthly",
+              "api/stats/top-categories"
+            ]
+          },
+          {
+            "group": "Categories",
+            "pages": [
+              "api/categories/list",
+              "api/categories/get",
+              "api/categories/create",
+              "api/categories/update",
+              "api/categories/delete"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Full CRUD operations for financial transactions (income and expenses)",
+    "Advanced filtering by type, category, month, and year",
+    "Financial balance calculation with optional period filtering",
+    "Category-based expense breakdown with percentage distribution",
+    "Monthly summary with month-over-month comparison and percentage change",
+    "Top 5 spending categories ranked by total amount",
+    "Predefined categories: food, transport, entertainment, utilities, health, shopping, salary, other",
+    "Input validation using Zod schema validation",
+    "CORS support with configurable origins",
+    "Layered architecture with controllers, models, routes, middleware, and schemas"
+  ],
+  "publicApiSurface": [
+    "GET /api/transactions - List all transactions with optional filters",
+    "POST /api/transactions - Create a new transaction",
+    "GET /api/transactions/:id - Get a transaction by ID",
+    "PATCH /api/transactions/:id - Update a transaction",
+    "DELETE /api/transactions/:id - Delete a transaction",
+    "GET /api/transactions/years - Get all years with transactions",
+    "GET /api/stats/balance - Get financial balance summary",
+    "GET /api/stats/by-category - Get expense breakdown by category",
+    "GET /api/stats/monthly - Get monthly summary with comparison",
+    "GET /api/stats/top-categories - Get top 5 spending categories",
+    "GET /api/categories - List all categories",
+    "GET /api/categories/:id - Get a category by ID",
+    "POST /api/categories - Create a new category",
+    "PUT /api/categories/:id - Update a category",
+    "DELETE /api/categories/:id - Delete a category"
+  ]
+}
